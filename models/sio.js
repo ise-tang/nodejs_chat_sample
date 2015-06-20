@@ -19,13 +19,13 @@ function sio(server) {
       debug(data);
       // すべてのクライアントへ通知を送信
       // ブロードキャスト
-      socket.emit('recieve', {
+      sio.emit('recieve', {
         type : data.type,
         user : data.user,
         value : data.value,
         time : dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
       });
-     
+    });
 
     // 切断
     socket.on("disconnect", function() {

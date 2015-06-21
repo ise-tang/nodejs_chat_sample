@@ -3,9 +3,14 @@ extends layout
 block content
   h1= title
   p Welcome to #{title} chat.
+  span#room_name #{title}
+  div#chat-area
   
-  input#username
+  span #{user_name}
   input#message
   button#send Send
     
-  div#chat-area
+  
+block script  
+  script(src='/socket.io/socket.io.js')
+  script(src='javascripts/client.js')

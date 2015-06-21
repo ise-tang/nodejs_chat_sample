@@ -29,7 +29,7 @@ function sio(server) {
 
     // 切断
     socket.on("disconnect", function() {
-      debug("disconnetc");
+      debug("disconnect");
     });
   });
 }

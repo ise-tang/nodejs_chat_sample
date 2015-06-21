@@ -3,3 +3,12 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  label 名前 
+  input#username 
+  br
+  span Rooms
+  ul
+    li 
+      a(href="/rooms/room1" ) room1
+    li 
+      a(href="/rooms/room2" ) room2

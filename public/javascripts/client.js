@@ -1,9 +1,24 @@
 var socket = io.connect({ transports: [ 'websocket' ] });
 
-socket.on('connect', function () {
-	emit('login');
-  console.log('connect');
+document.addEventListener('DOMContentLoaded', function () {
+  console.log("DOMContentLoaded");
+  var room, _room;
+  
+  if (_room = location.href.match(/chat#([^#]+)$/)) {
+    room = _room[1];
+  } else {
+    room = 'room1';
+  }
+  console.log(room);
+  $('#room_name').text(room);
+  
+  socket.on('connect', function () {
+    emit('login');
+    console.log('connect');
+  });
 });
+
+
 
 socket.on('disconnect', function () {
 	
@@ -33,10 +48,12 @@ socket.on('recieve', function(data) {
 function emit(type, msg) {
   console.log(msg);
   console.log($('#username').val());
+  console.log($('#room_name').text());
   socket.emit('notice', {
     type : type,
     user : $('#username').val(),
     value : msg,
+    room : $('#room_name').text()
   });
   console.log("emit done");
 }

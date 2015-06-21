@@ -11,25 +11,33 @@ function sio(server) {
   sio.set('transports', [ 'websocket' ]);
 
   // 接続
-  sio.sockets.on('connection', function(socket) {
+  sio.on('connection', function(socket) {
     debug("connection");
-    // 通知受信
-    socket.on('notice', function(data) {
-      debug("receive notice");
+    
+    // 部屋入室
+    socket.once('login', function(data) {
       debug(data);
-      // すべてのクライアントへ通知を送信
-      // ブロードキャスト
-      sio.emit('recieve', {
-        type : data.type,
-        user : data.user,
-        value : data.value,
-        time : dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
+      debug("login");
+      socket.join(data.room);
+    
+      // 通知受信
+      socket.on('notice', function(data) {
+        debug("receive notice");
+        debug(data);
+        // すべてのクライアントへ通知を送信
+        // ブロードキャスト
+        sio.sockets.to(data.room).emit('recieve', {
+          type : data.type,
+          user : data.user,
+          value : data.value,
+          time : dateformat(new Date(), 'yyyy-mm-dd HH:MM:ss'),
+        });
       });
-    });
 
-    // 切断
-    socket.on("disconnect", function() {
-      debug("disconnect");
-    });
+      // 切断
+      socket.on("disconnect", function() {
+        debug("disconnect");
+      });
+    });   
   });
 }

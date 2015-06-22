@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
   $('#room_name').text(room);
   
   socket.on('connect', function () {
-    emit('login');
+    socket.emit('login',{
+       room : $('#room_name').text()
+    });
     console.log('connect');
   });
 });
